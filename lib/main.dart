@@ -50,33 +50,29 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-            Container(
-              height: 100,
-              width: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50)
-              ),
-              alignment: Alignment.center,
-              margin: EdgeInsets.all(20),
-              child: Text(
-                "Fetch Weather",
-                textAlign: TextAlign.center,
-              ),
-            )
-          // ElevatedButton(
-          //   onPressed: (){
-             
-          //   }
-           
+          children: <Widget>[
+            TextField(
+                obscureText: false,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Input City Name',
+                ),
+            ),
+            const Text(
+              'Duluth, GA\n\nCloudy -- 60F',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), 
+      ), // This trailing comma makes auto-formatting nicer for build methods.*/
     );
   }
 }
