@@ -1,5 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-//AHHHHHHHH
+TextEditingController text1 = TextEditingController ();
 
 void main() {
   runApp(const MyApp());
@@ -57,8 +59,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _cityName = "";
+  int _temperature = 0;
+  String _condition = "";
+  List<String> weatherOptions = ["sunny", "cloudy", "rainy"];
 
-  void _incrementCounter() {
+  /*void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -66,6 +72,16 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }*/
+
+  void _fetchWeather() {
+    setState(() {
+      _cityName = text1.text;
+      _temperature = Random().nextInt(15) + 15;
+      _condition = weatherOptions[Random().nextInt(weatherOptions.length)];
+      print(_cityName + '$_temperature' + _condition);
+      //Text('$_condition');     
     });
   }
 
@@ -105,6 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
+          
           children: <Widget>[
             TextField(
                 obscureText: false,
@@ -112,19 +129,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: OutlineInputBorder(),
                   labelText: 'Input City Name',
                 ),
+                controller: text1,
             ),
-            const Text(
-              'Duluth, GA\n\nCloudy -- 60F',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            //Insert display info here once simulation is complete
+            ElevatedButton(
+              onPressed: _fetchWeather,
+              child: const Text('Fetch Weather'))
           ],
         ),
       ),
       /*floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _fetchWeather,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.*/
