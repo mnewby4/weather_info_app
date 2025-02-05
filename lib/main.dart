@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             //Displays the weather data
             Text(
-              '\n' + _cityName + '\n\n' + '$_temperature' + '\n\n' + _condition + '\n', 
+              '\n' + _cityName + '\n\n' + '$_temperature' + 'F' + '\n\n' + _condition + '\n', 
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             //Fetch Weather data button
