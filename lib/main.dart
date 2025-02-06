@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-//Reads the user's input
-TextEditingController text1 = TextEditingController ();
+// Reads the user's input
+TextEditingController text1 = TextEditingController();
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +11,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,18 +33,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //Initializes the weather information
   String _cityName = "";
   int _temperature = 0;
   String _condition = "";
-  List<String> weatherOptions = ["sunny", "cloudy", "rainy"];
+  List<String> weatherOptions = ["Sunny", "Cloudy", "Rainy"];
+  List<Map<String, dynamic>> _weeklyForecast = [];
 
-  //Sets the weather information
   void _fetchWeather() {
     setState(() {
       _cityName = text1.text;
       _temperature = Random().nextInt(15) + 15;
       _condition = weatherOptions[Random().nextInt(weatherOptions.length)];
+    });
+  }
+
+  void _fetch7DayForecast() {
+    setState(() {
+      _weeklyForecast = List.generate(7, (index) => {
+        "day": "Day ${index + 1}",
+        "temperature": Random().nextInt(15) + 15,
+        "condition": weatherOptions[Random().nextInt(weatherOptions.length)]
+      });
     });
   }
 
@@ -60,24 +68,46 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            //Input cityName
             TextField(
-                obscureText: false,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Input City Name',
-                ),
-                controller: text1,
+              obscureText: false,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Input City Name',
+              ),
+              controller: text1,
             ),
-            //Displays the weather data
             Text(
               '\n' + _cityName + '\n\n' + '$_temperature' + 'F' + '\n\n' + _condition + '\n', 
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            //Fetch Weather data button
             ElevatedButton(
               onPressed: _fetchWeather,
-              child: const Text('Fetch Weather'))
+              child: const Text('Fetch Weather'),
+            ),
+            ElevatedButton(
+              onPressed: _fetch7DayForecast,
+              child: const Text('Get 7-Day Forecast'),
+            ),
+            if (_weeklyForecast.isNotEmpty) ...[
+              const SizedBox(height: 20),
+              const Text(
+                '7-Day Weather Forecast:',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _weeklyForecast.length,
+                  itemBuilder: (context, index) {
+                    final day = _weeklyForecast[index];
+                    return ListTile(
+                      title: Text(day["day"]),
+                      subtitle: Text("${day["temperature"]}F, ${day["condition"]}"),
+                    );
+                  },
+                ),
+              ),
+            ],
           ],
         ),
       ),
